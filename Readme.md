@@ -1,43 +1,38 @@
 # docker-xcmsviewer
 
-## build image
+## Build Image
 
 ```bash
-docker build . -t test
+docker build -t xcmsViewer .
 ```
 
-## preprocessing data
+## Preprocessing Data
 
-- 1) put all mzXML files into extdata
-- 2) create a `group` inside to assign a group condition to a mzXML file
+- Create `extdata` directory: `mkdir extdata`
+- Put mzXML files into `extdata`
+- Create a `group` file to assign group conditions
 
-example : `extdata/group`
+Example: `extdata/group`
 
 ```tsv
 23_0234.mzXML   A  
 23_0245.mzXML   A
 ```
 
-
 ```bash
-docker run -p 3838:3838 -v $(pwd)/extdata:/extdata -t test xcmsViewer_preprocess.R
+docker run -p 3838:3838 -v $(pwd)/extdata:/extdata -t xcmsViewer xcmsViewer_preprocess.R
 ```
-
-## visualizing data data
-
+## Visualizing Data
 ```bash
-docker run -p 3838:3838 -v $(pwd)/extdata:/extdata -t test xcmsViewer.R
+docker run -p 3838:3838 -v $(pwd)/extdata:/extdata -t xcmsViewer xcmsViewer.R
 ```
-
-Default values : 
+Default values:
 - `PORT "3838"`
 - `HOST "0.0.0.0"`
 - `TRACE "FALSE"`
 
-possibility to override all env variables
+Override env variables:
 
 ```bash
-docker run --env TRACE="TRUE"  -p 3838:3838 -v $(pwd)/extdata:/extdata -t test xcmsViewer.R
+docker run --env TRACE="TRUE" -p 3838:3838 -v $(pwd)/extdata:/extdata -t xcmsViewer xcmsViewer.R
 ```
-
-
